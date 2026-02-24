@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/">Inicio</a>
+    <a href="/suscribirse">Suscribirse</a>
+    <a href="#" id="logout">Cerrar sesión</a>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Mi cuenta</h1>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div id="loading" style="text-align: center; padding: 2rem;">Cargando...</div>
+
+      <div id="content" style="display: none;">
+        <div class="auth-card" style="max-width: 100%;">
+          <h2>Datos de tu cuenta</h2>
+          <p><strong>Email:</strong> <span id="userEmail"></span></p>
+          <p><strong>Nombre:</strong> <span id="userNombre"></span></p>
+        </div>
+
+        <div id="subscriptionSection" style="margin-top: 2rem;">
+          <h2 class="section-title">Tu suscripción</h2>
+          <div id="subscriptionCard" class="plan-card" style="max-width: 480px;">
+            <p id="subscriptionInfo"></p>
+          </div>
+          <div id="noSubscription" style="display: none;">
+            <p style="margin-bottom: 1rem;">Aún no tenés una suscripción activa.</p>
+            <a href="/suscribirse" class="btn">Elegir plan</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="loginRequired" style="text-align: center; padding: 2rem; display: none;">
+        <p style="margin-bottom: 1rem;">Iniciá sesión para acceder a tu cuenta.</p>
+        <a href="/login" class="btn">Iniciar sesión</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    (async () => {
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('content');
+      const loginRequired = document.getElementById('loginRequired');
+
+      try {
+        const me = await API.auth.me();
+        loading.style.display = 'none';
+
+        document.getElementById('userEmail').textContent = me.user.email;
+        document.getElementById('userNombre').textContent = me.user.nombre || '—';
+
+        if (me.subscription) {
+          const planNames = { basico: 'Básico', profesional: 'Profesional' };
+          const planPrices = { basico: 'USD 7', profesional: 'USD 10' };
+          document.getElementById('subscriptionInfo').innerHTML = `
+            <strong>Plan:</strong> ${planNames[me.subscription.plan]}<br>
+            <strong>Precio:</strong> ${planPrices[me.subscription.plan]} / mes<br>
+            <strong>Estado:</strong> ${me.subscription.status === 'active' ? 'Activa' : me.subscription.status}
+          `;
+          document.getElementById('noSubscription').style.display = 'none';
+        } else {
+          document.getElementById('subscriptionCard').style.display = 'none';
+          document.getElementById('noSubscription').style.display = 'block';
+        }
+
+        content.style.display = 'block';
+      } catch {
+        loading.style.display = 'none';
+        loginRequired.style.display = 'block';
+      }
+
+      document.getElementById('logout').addEventListener('click', async (e) => {
+        e.preventDefault();
+        await API.auth.logout();
+        window.location.href = '/';
+      });
+    })();
+  </script>
+</body>
+</html>

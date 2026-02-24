@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elegir plan | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/">Inicio</a>
+    <span id="navAuth"></span>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Elegí tu plan</h1>
+      <p class="tagline">Activá hoy la protección continua de tu marca online</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div id="loginRequired" style="text-align: center; padding: 2rem; display: none;">
+        <p style="margin-bottom: 1rem;">Para suscribirte necesitás iniciar sesión o crear una cuenta.</p>
+        <a href="/login" class="btn">Iniciar sesión</a>
+        <a href="/register" class="btn btn-secondary" style="margin-left: 0.5rem;">Registrarse</a>
+      </div>
+
+      <div id="plansContainer" class="plans" style="display: none;">
+        <div class="plan-card" data-plan="basico">
+          <h3 class="plan-name">Básico</h3>
+          <p class="plan-price">USD 7 <span>/ mes</span></p>
+          <p class="plan-desc">Monitoreo preventivo continua de tu marca con alertas automáticas y acceso a recursos legales esenciales.</p>
+          <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Básico</button>
+        </div>
+        <div class="plan-card featured" data-plan="profesional">
+          <h3 class="plan-name">Profesional</h3>
+          <p class="plan-price">USD 10 <span>/ mes</span></p>
+          <p class="plan-desc">Incluye diagnóstico inicial de registrabilidad, beneficios preferenciales en registros y una consulta breve anual.</p>
+          <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Profesional</button>
+        </div>
+      </div>
+
+      <div id="alreadySubscribed" style="text-align: center; padding: 2rem; display: none;">
+        <p style="margin-bottom: 1rem;">Ya tenés una suscripción activa.</p>
+        <a href="/dashboard" class="btn">Ir a mi cuenta</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    (async () => {
+      const loginRequired = document.getElementById('loginRequired');
+      const plansContainer = document.getElementById('plansContainer');
+      const alreadySubscribed = document.getElementById('alreadySubscribed');
+      const navAuth = document.getElementById('navAuth');
+
+      let user = null;
+      let subscription = null;
+
+      try {
+        const me = await API.auth.me();
+        user = me.user;
+        subscription = me.subscription;
+        navAuth.innerHTML = `<a href="/dashboard">Mi cuenta</a> | <a href="#" id="logout">Cerrar sesión</a>`;
+      } catch {
+        navAuth.innerHTML = '<a href="/login">Iniciar sesión</a> | <a href="/register">Registrarse</a>';
+      }
+
+      if (!user) {
+        loginRequired.style.display = 'block';
+        return;
+      }
+
+      if (subscription) {
+        alreadySubscribed.style.display = 'block';
+        return;
+      }
+
+      plansContainer.style.display = 'grid';
+
+      if (document.getElementById('logout')) {
+        document.getElementById('logout').addEventListener('click', async (e) => {
+          e.preventDefault();
+          await API.auth.logout();
+          window.location.href = '/';
+        });
+      }
+
+      plansContainer.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const plan = btn.closest('.plan-card').dataset.plan;
+          btn.disabled = true;
+          btn.textContent = 'Procesando...';
+
+          try {
+            await API.subscriptions.create(plan);
+            window.location.href = '/dashboard';
+          } catch (err) {
+            alert(err.message);
+            btn.disabled = false;
+            btn.textContent = 'Elegir ' + (plan === 'basico' ? 'Básico' : 'Profesional');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
