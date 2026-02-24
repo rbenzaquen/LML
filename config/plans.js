@@ -1,11 +1,17 @@
 module.exports = {
-  basico: {
-    id: 'basico',
-    name: 'Básico',
+  emprendedor: {
+    id: 'emprendedor',
+    name: 'Emprendedor',
     price: 7,
     currency: 'USD',
     maxBrands: 5,
-    description: 'Monitoreo preventivo continua de tu marca con alertas automáticas y acceso a recursos legales esenciales.',
+    features: [
+      'Monitoreo mensual de publicaciones marcarias',
+      'Alertas automáticas ante posibles conflictos',
+      'Recordatorio de vencimientos y renovaciones',
+      'Acceso a biblioteca legal básica',
+    ],
+    description: 'Monitoreo mensual de publicaciones marcarias, alertas automáticas y acceso a recursos legales esenciales.',
   },
   profesional: {
     id: 'profesional',
@@ -13,6 +19,38 @@ module.exports = {
     price: 10,
     currency: 'USD',
     maxBrands: 15,
-    description: 'Incluye diagnóstico inicial de registrabilidad, beneficios preferenciales en registros y una consulta breve anual.',
+    recommended: true,
+    features: [
+      'Todo lo del plan Emprendedor',
+      'Diagnóstico inicial de registrabilidad',
+      'Consulta estratégica anual',
+      'Beneficios preferenciales en registros',
+      'Informe anual de situación marcaria',
+    ],
+    description: 'Incluye diagnóstico inicial de registrabilidad, beneficios preferenciales en registros y consulta estratégica anual.',
+  },
+  empresa: {
+    id: 'empresa',
+    name: 'Empresa',
+    price: 25,
+    currency: 'USD',
+    maxBrands: 3,
+    features: [
+      'Hasta 3 marcas incluidas',
+      'Informe trimestral personalizado',
+      'Prioridad de respuesta',
+      'Descuentos preferenciales en presentaciones',
+      'Revisión estratégica anual',
+    ],
+    description: 'Para empresas con múltiples marcas. Informe trimestral, prioridad y descuentos preferenciales.',
+  },
+  // Compatibilidad con datos existentes (subscriptions guardadas como "basico")
+  basico: {
+    id: 'basico',
+    name: 'Emprendedor',
+    price: 7,
+    currency: 'USD',
+    maxBrands: 5,
+    description: 'Monitoreo mensual con alertas automáticas y acceso a biblioteca legal básica.',
   },
 };

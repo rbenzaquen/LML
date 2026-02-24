@@ -37,7 +37,8 @@ router.post('/', authMiddleware, [
 
     const count = db.brands.countByUserId(userId);
     if (count >= maxBrands) {
-      const planName = db.subscriptions.findActiveByUserId(userId)?.plan === 'basico' ? 'Básico' : 'Profesional';
+      const sub = db.subscriptions.findActiveByUserId(userId);
+      const planName = PLANS[sub?.plan]?.name ?? sub?.plan ?? 'actual';
       return res.status(403).json({
         error: `Tu plan ${planName} permite hasta ${maxBrands} marcas. Ya tenés ${count}.`,
       });

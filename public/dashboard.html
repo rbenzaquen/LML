@@ -11,9 +11,15 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="/">Inicio</a>
-    <a href="/suscribirse">Suscribirse</a>
-    <a href="#" id="logout">Cerrar sesión</a>
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/planes">Planes</a>
+      <a href="/dashboard">Mi cuenta</a>
+      <a href="/suscribirse">Suscribirse</a>
+      <a href="#" id="logout">Cerrar sesión</a>
+    </div>
   </nav>
 
   <header class="hero">
@@ -72,7 +78,7 @@
   <footer class="footer">
     <div class="container">
       <p class="firm">Litvin Marzorati Legales</p>
-      <p>LML Brand Protection Membership</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
     </div>
   </footer>
 
@@ -91,17 +97,18 @@
         document.getElementById('userNombre').textContent = me.user.nombre || '—';
 
         if (me.subscription) {
-          const planNames = { basico: 'Básico', profesional: 'Profesional' };
-          const planPrices = { basico: 'USD 7', profesional: 'USD 10' };
-          const maxBrands = { basico: 5, profesional: 15 };
+          const planNames = { basico: 'Emprendedor', emprendedor: 'Emprendedor', profesional: 'Profesional', empresa: 'Empresa' };
+          const planPrices = { basico: 'USD 7', emprendedor: 'USD 7', profesional: 'USD 10', empresa: 'USD 25' };
+          const maxBrands = { basico: 5, emprendedor: 5, profesional: 15, empresa: 3 };
+          const plan = me.subscription.plan;
           document.getElementById('subscriptionInfo').innerHTML = `
-            <strong>Plan:</strong> ${planNames[me.subscription.plan]}<br>
-            <strong>Precio:</strong> ${planPrices[me.subscription.plan]} / mes<br>
+            <strong>Plan:</strong> ${planNames[plan] || plan}<br>
+            <strong>Precio:</strong> ${planPrices[plan] || '—'} / mes<br>
             <strong>Estado:</strong> ${me.subscription.status === 'active' ? 'Activa' : me.subscription.status}
           `;
           document.getElementById('noSubscription').style.display = 'none';
           document.getElementById('brandsSection').style.display = 'block';
-          initBrands(me.subscription.plan, maxBrands[me.subscription.plan]);
+          initBrands(plan, maxBrands[plan] ?? 5);
         } else {
           document.getElementById('subscriptionCard').style.display = 'none';
           document.getElementById('noSubscription').style.display = 'block';
@@ -112,6 +119,10 @@
         loading.style.display = 'none';
         loginRequired.style.display = 'block';
       }
+
+      document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('open');
+      });
 
       document.getElementById('logout').addEventListener('click', async (e) => {
         e.preventDefault();
@@ -128,7 +139,8 @@
 
         async function loadBrands() {
           const { brands } = await API.brands.list();
-          brandsLimit.textContent = `${brands.length} de ${maxBrands} marcas (plan ${plan === 'basico' ? 'Básico' : 'Profesional'})`;
+          const planLabels = { basico: 'Emprendedor', emprendedor: 'Emprendedor', profesional: 'Profesional', empresa: 'Empresa' };
+          brandsLimit.textContent = `${brands.length} de ${maxBrands} marcas (plan ${planLabels[plan] || plan})`;
           brandsList.innerHTML = brands.map((b) => `
             <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: var(--color-bg); border-radius: 6px; margin-bottom: 0.5rem;">
               <span>${escapeHtml(b.name)}</span>

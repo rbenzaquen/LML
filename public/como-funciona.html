@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo funciona | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .features { list-style: none; }
+    .features li { padding: 0.75rem 0; padding-left: 2rem; position: relative; }
+    .features li::before { content: "✓"; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; font-size: 1.25rem; }
+    .cta-section { background: var(--color-primary); color: var(--color-white); padding: 4rem 0; text-align: center; }
+    .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; margin-bottom: 1rem; }
+    .cta-section .btn { background: var(--color-accent); color: var(--color-primary); }
+    .diferencial { background: rgba(201, 162, 39, 0.15); padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid var(--color-accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/como-funciona">Cómo funciona</a>
+      <a href="/planes">Planes</a>
+      <a href="/para-quien-es">¿Para quién es?</a>
+      <a href="/casos-beneficios">Casos y beneficios</a>
+      <a href="/faq">FAQ</a>
+      <a href="/sobre-lml">Sobre LML</a>
+      <a href="/contacto">Contacto</a>
+      <a href="/login">Iniciar sesión</a>
+      <a href="/suscribirse" class="btn">Activar protección</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Cómo funciona</h1>
+      <p class="tagline">Protección estructurada en 4 pasos</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <ol class="step-list">
+        <li>
+          <strong>Suscripción</strong><br>
+          Elegís el plan que mejor se adapte a tu negocio.
+        </li>
+        <li>
+          <strong>Vinculación de marca</strong><br>
+          Cargás tu marca o nombre comercial en la plataforma.
+        </li>
+        <li>
+          <strong>Monitoreo continuo</strong><br>
+          Supervisamos publicaciones marcarias y enviamos avisos y alertas.
+        </li>
+        <li>
+          <strong>Alerta y acción</strong><br>
+          Recibís notificaciones ante posibles conflictos y, si querés, intervenimos estratégicamente.
+        </li>
+      </ol>
+
+      <div class="diferencial">
+        <strong>🔐 Diferencial clave:</strong><br>
+        No es un software autónomo. Es monitoreo con respaldo legal real.
+      </div>
+    </div>
+  </main>
+
+  <section class="cta-section">
+    <div class="container">
+      <a href="/suscribirse" class="btn">Activar protección mensual</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

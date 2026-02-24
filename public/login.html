@@ -11,8 +11,14 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="/">Inicio</a>
-    <a href="/register">Registrarse</a>
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/planes">Planes</a>
+      <a href="/register">Registrarse</a>
+      <a href="/suscribirse" class="btn">Activar protección</a>
+    </div>
   </nav>
 
   <header class="hero">
@@ -52,6 +58,11 @@
     </div>
   </footer>
 
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
   <script src="/js/app.js"></script>
   <script>
     document.getElementById('loginForm').addEventListener('submit', async (e) => {

@@ -8,11 +8,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .plan-desc { font-size: 0.95rem; color: var(--color-text-light); margin-bottom: 1rem; }
+    .features { list-style: none; margin: 0.5rem 0; }
+    .features li { padding: 0.3rem 0; padding-left: 1.5rem; position: relative; font-size: 0.9rem; }
+    .features li::before { content: "✓"; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  </style>
 </head>
 <body>
   <nav class="nav">
-    <a href="/">Inicio</a>
-    <span id="navAuth"></span>
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/como-funciona">Cómo funciona</a>
+      <a href="/planes">Planes</a>
+      <a href="/para-quien-es">¿Para quién es?</a>
+      <a href="/casos-beneficios">Casos y beneficios</a>
+      <a href="/faq">FAQ</a>
+      <a href="/sobre-lml">Sobre LML</a>
+      <a href="/contacto">Contacto</a>
+      <span id="navAuth"></span>
+    </div>
   </nav>
 
   <header class="hero">
@@ -32,17 +49,40 @@
       </div>
 
       <div id="plansContainer" class="plans" style="display: none;">
-        <div class="plan-card" data-plan="basico">
-          <h3 class="plan-name">Básico</h3>
+        <div class="plan-card" data-plan="emprendedor">
+          <h3 class="plan-name">Plan Emprendedor</h3>
           <p class="plan-price">USD 7 <span>/ mes</span></p>
-          <p class="plan-desc">Monitoreo preventivo continua de tu marca con alertas automáticas y acceso a recursos legales esenciales.</p>
-          <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Básico</button>
+          <ul class="features">
+            <li>Monitoreo mensual de publicaciones marcarias</li>
+            <li>Alertas automáticas</li>
+            <li>Recordatorio de vencimientos</li>
+            <li>Biblioteca legal básica</li>
+          </ul>
+          <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Emprendedor</button>
         </div>
         <div class="plan-card featured" data-plan="profesional">
-          <h3 class="plan-name">Profesional</h3>
+          <h3 class="plan-name">Plan Profesional</h3>
           <p class="plan-price">USD 10 <span>/ mes</span></p>
-          <p class="plan-desc">Incluye diagnóstico inicial de registrabilidad, beneficios preferenciales en registros y una consulta breve anual.</p>
+          <ul class="features">
+            <li>Todo lo del plan Emprendedor</li>
+            <li>Diagnóstico de registrabilidad</li>
+            <li>Consulta estratégica anual</li>
+            <li>Beneficios preferenciales</li>
+            <li>Informe anual</li>
+          </ul>
           <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Profesional</button>
+        </div>
+        <div class="plan-card" data-plan="empresa">
+          <h3 class="plan-name">Plan Empresa</h3>
+          <p class="plan-price">USD 25 <span>/ mes</span></p>
+          <ul class="features">
+            <li>Hasta 3 marcas incluidas</li>
+            <li>Informe trimestral</li>
+            <li>Prioridad de respuesta</li>
+            <li>Descuentos preferenciales</li>
+            <li>Revisión estratégica anual</li>
+          </ul>
+          <button type="button" class="btn" style="width: 100%; margin-top: 1rem;">Elegir Empresa</button>
         </div>
       </div>
 
@@ -56,7 +96,7 @@
   <footer class="footer">
     <div class="container">
       <p class="firm">Litvin Marzorati Legales</p>
-      <p>LML Brand Protection Membership</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
     </div>
   </footer>
 
@@ -68,6 +108,8 @@
       const alreadySubscribed = document.getElementById('alreadySubscribed');
       const navAuth = document.getElementById('navAuth');
 
+      const planNames = { emprendedor: 'Emprendedor', profesional: 'Profesional', empresa: 'Empresa' };
+
       let user = null;
       let subscription = null;
 
@@ -77,7 +119,7 @@
         subscription = me.subscription;
         navAuth.innerHTML = `<a href="/dashboard">Mi cuenta</a> | <a href="#" id="logout">Cerrar sesión</a>`;
       } catch {
-        navAuth.innerHTML = '<a href="/login">Iniciar sesión</a> | <a href="/register">Registrarse</a>';
+        navAuth.innerHTML = '<a href="/login">Iniciar sesión</a> | <a href="/register">Registrarse</a> | <a href="/suscribirse" class="btn">Activar protección</a>';
       }
 
       if (!user) {
@@ -103,6 +145,7 @@
       plansContainer.querySelectorAll('button').forEach(btn => {
         btn.addEventListener('click', async () => {
           const plan = btn.closest('.plan-card').dataset.plan;
+          const label = btn.textContent;
           btn.disabled = true;
           btn.textContent = 'Procesando...';
 
@@ -112,9 +155,13 @@
           } catch (err) {
             alert(err.message);
             btn.disabled = false;
-            btn.textContent = 'Elegir ' + (plan === 'basico' ? 'Básico' : 'Profesional');
+            btn.textContent = label;
           }
         });
+      });
+
+      document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('open');
       });
     })();
   </script>

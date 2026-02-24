@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .features { list-style: none; margin: 1rem 0; }
+    .features li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; font-size: 0.95rem; }
+    .features li::before { content: "✓"; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+    .plan-desc { font-size: 0.95rem; color: var(--color-text-light); margin-bottom: 1rem; }
+    .cta-section { background: var(--color-primary); color: var(--color-white); padding: 4rem 0; text-align: center; }
+    .cta-section .btn { background: var(--color-accent); color: var(--color-primary); }
+    .plan-footer { font-size: 0.9rem; color: var(--color-text-light); margin-top: 1.5rem; font-style: italic; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/como-funciona">Cómo funciona</a>
+      <a href="/planes">Planes</a>
+      <a href="/para-quien-es">¿Para quién es?</a>
+      <a href="/casos-beneficios">Casos y beneficios</a>
+      <a href="/faq">FAQ</a>
+      <a href="/sobre-lml">Sobre LML</a>
+      <a href="/contacto">Contacto</a>
+      <a href="/login">Iniciar sesión</a>
+      <a href="/suscribirse" class="btn">Activar protección</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Planes</h1>
+      <p class="tagline">Elegí el que mejor se adapte a tu negocio</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="plans">
+        <div class="plan-card">
+          <h3 class="plan-name">Plan Emprendedor</h3>
+          <p class="plan-price">USD 7 <span>/ mes</span></p>
+          <ul class="features">
+            <li>Monitoreo mensual de publicaciones marcarias</li>
+            <li>Alertas automáticas ante posibles conflictos</li>
+            <li>Recordatorio de vencimientos y renovaciones</li>
+            <li>Acceso a biblioteca legal básica</li>
+          </ul>
+          <a href="/suscribirse?plan=emprendedor" class="btn" style="width: 100%; text-align: center;">Elegir plan</a>
+        </div>
+
+        <div class="plan-card featured">
+          <h3 class="plan-name">Plan Profesional</h3>
+          <p class="plan-price">USD 10 <span>/ mes</span></p>
+          <ul class="features">
+            <li>Todo lo del plan Emprendedor</li>
+            <li>Diagnóstico inicial de registrabilidad</li>
+            <li>Consulta estratégica anual</li>
+            <li>Beneficios preferenciales en registros</li>
+            <li>Informe anual de situación marcaria</li>
+          </ul>
+          <a href="/suscribirse?plan=profesional" class="btn" style="width: 100%; text-align: center;">Elegir plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Plan Empresa</h3>
+          <p class="plan-price">USD 25 <span>/ mes</span></p>
+          <ul class="features">
+            <li>Hasta 3 marcas incluidas</li>
+            <li>Informe trimestral personalizado</li>
+            <li>Prioridad de respuesta</li>
+            <li>Descuentos preferenciales en presentaciones</li>
+            <li>Revisión estratégica anual</li>
+          </ul>
+          <a href="/suscribirse?plan=empresa" class="btn" style="width: 100%; text-align: center;">Elegir plan</a>
+        </div>
+      </div>
+
+      <p class="plan-footer">La prevención es exponencialmente más económica que el conflicto.</p>
+    </div>
+  </main>
+
+  <section class="cta-section">
+    <div class="container">
+      <a href="/suscribirse" class="btn">Activar protección mensual</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

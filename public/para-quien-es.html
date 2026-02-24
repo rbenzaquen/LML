@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Para quién es? | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .audience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .audience-item { background: var(--color-white); padding: 1.25rem; border-radius: 8px; box-shadow: var(--shadow); text-align: center; }
+    .cta-section { background: var(--color-primary); color: var(--color-white); padding: 4rem 0; text-align: center; }
+    .cta-section .btn { background: var(--color-accent); color: var(--color-primary); }
+    .intro { font-size: 1.125rem; color: var(--color-text-light); margin-bottom: 2rem; line-height: 1.75; }
+    .tagline-strong { font-weight: 600; color: var(--color-primary); margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/como-funciona">Cómo funciona</a>
+      <a href="/planes">Planes</a>
+      <a href="/para-quien-es">¿Para quién es?</a>
+      <a href="/casos-beneficios">Casos y beneficios</a>
+      <a href="/faq">FAQ</a>
+      <a href="/sobre-lml">Sobre LML</a>
+      <a href="/contacto">Contacto</a>
+      <a href="/login">Iniciar sesión</a>
+      <a href="/suscribirse" class="btn">Activar protección</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>¿Para quién es?</h1>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <p class="intro">
+        Esta membresía fue diseñada para quienes entienden que su marca o nombre comercial es parte del patrimonio de su negocio.
+      </p>
+
+      <h2 class="section-title">Ideal para</h2>
+      <div class="audience-grid">
+        <div class="audience-item">Emprendedores digitales</div>
+        <div class="audience-item">Vendedores de marketplaces</div>
+        <div class="audience-item">Startups</div>
+        <div class="audience-item">Empresas en expansión</div>
+        <div class="audience-item">Franquiciantes</div>
+        <div class="audience-item">Creadores de contenido</div>
+        <div class="audience-item">Negocios con proyección internacional</div>
+      </div>
+
+      <p class="tagline-strong">Si tu marca genera ingresos, necesitás vigilancia.</p>
+    </div>
+  </main>
+
+  <section class="cta-section">
+    <div class="container">
+      <a href="/suscribirse" class="btn">Activar protección mensual</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

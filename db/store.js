@@ -10,10 +10,11 @@ if (!fs.existsSync(dataDir)) {
 
 function load() {
   if (!fs.existsSync(dbPath)) {
-    return { users: [], subscriptions: [], brands: [] };
+    return { users: [], subscriptions: [], brands: [], contacts: [] };
   }
   const data = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
   if (!data.brands) data.brands = [];
+  if (!data.contacts) data.contacts = [];
   return data;
 }
 
@@ -88,6 +89,18 @@ const db = {
       data.brands.splice(idx, 1);
       save(data);
       return true;
+    },
+  },
+  contacts: {
+    create(contact) {
+      const data = load();
+      const id = data.contacts.length
+        ? Math.max(...data.contacts.map((c) => c.id)) + 1
+        : 1;
+      const newContact = { id, ...contact, created_at: new Date().toISOString() };
+      data.contacts.push(newContact);
+      save(data);
+      return newContact;
     },
   },
 };

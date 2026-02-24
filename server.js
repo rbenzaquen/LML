@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const subscriptionRoutes = require('./routes/subscriptions');
 const brandsRoutes = require('./routes/brands');
+const contactRoutes = require('./routes/contact');
 const PLANS = require('./config/plans');
 
 const app = express();
@@ -19,13 +20,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/brands', brandsRoutes);
+app.use('/api/contact', contactRoutes);
 app.get('/api/plans', (req, res) => {
   res.json({ plans: Object.values(PLANS) });
 });
 
-// Páginas: /, /login, /register, /suscribirse, /dashboard
+// Páginas
 const pages = [
   ['/', 'index.html'],
+  ['/como-funciona', 'como-funciona.html'],
+  ['/planes', 'planes.html'],
+  ['/para-quien-es', 'para-quien-es.html'],
+  ['/casos-beneficios', 'casos-beneficios.html'],
+  ['/faq', 'faq.html'],
+  ['/sobre-lml', 'sobre-lml.html'],
+  ['/contacto', 'contacto.html'],
   ['/login', 'login.html'],
   ['/register', 'register.html'],
   ['/suscribirse', 'suscribirse.html'],

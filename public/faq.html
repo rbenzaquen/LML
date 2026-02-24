@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .cta-section { background: var(--color-primary); color: var(--color-white); padding: 4rem 0; text-align: center; }
+    .cta-section .btn { background: var(--color-accent); color: var(--color-primary); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/como-funciona">Cómo funciona</a>
+      <a href="/planes">Planes</a>
+      <a href="/para-quien-es">¿Para quién es?</a>
+      <a href="/casos-beneficios">Casos y beneficios</a>
+      <a href="/faq">FAQ</a>
+      <a href="/sobre-lml">Sobre LML</a>
+      <a href="/contacto">Contacto</a>
+      <a href="/login">Iniciar sesión</a>
+      <a href="/suscribirse" class="btn">Activar protección</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Preguntas frecuentes</h1>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="faq-item">
+        <h3>¿Incluye tasas oficiales?</h3>
+        <p>No. La membresía cubre únicamente monitoreo y beneficios preferenciales. Las tasas oficiales y acciones específicas, como solicitudes de marcas, se presupuestan aparte.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Necesito tener la marca registrada?</h3>
+        <p>No necesariamente. Podemos monitorear incluso nombres de usuario, nombres comerciales, solicitudes en trámite.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Aplica solo para Argentina?</h3>
+        <p>Inicialmente el monitoreo está enfocado en Argentina. Pueden desarrollarse estrategias internacionales según el caso.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Puedo cancelar cuando quiera?</h3>
+        <p>Sí. No hay permanencia obligatoria.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Incluye defensa legal?</h3>
+        <p>La membresía no incluye litigios, pero ofrece beneficios preferenciales para actuar estratégicamente.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Qué pasa si detectan un conflicto?</h3>
+        <p>Recibís una alerta con análisis preliminar y opciones estratégicas.</p>
+      </div>
+    </div>
+  </main>
+
+  <section class="cta-section">
+    <div class="container">
+      <a href="/suscribirse" class="btn">Activar protección mensual</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

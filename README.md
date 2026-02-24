@@ -1,16 +1,22 @@
 # LML Brand Protection Membership
 
-Plataforma de monitoreo marcario de Litvin Marzorati Legales. Los usuarios pueden registrarse, iniciar sesión y contratar planes de protección de marca.
+Plataforma de monitoreo marcario de Litvin Marzorati Legales. Vigilancia marcaria Argentina.
 
 **Slogan:** *"Protección continua online de tu marca, respaldada por Litvin Marzorati Legales."*
 
 ## Contenido
 
-- **Landing** — Página principal con planes, beneficios y CTA
-- **Registro / Login** — Autenticación de usuarios
-- **Suscripción** — Planes Básico (USD 7/mes) y Profesional (USD 10/mes)
-- **Dashboard** — Área de usuario con datos de cuenta y suscripción
-- **email-lanzamiento.html** — Plantilla de email de lanzamiento
+- **Inicio** — Landing con propuesta de valor y CTA
+- **Cómo funciona** — 4 pasos: Suscripción, Vinculación, Monitoreo, Alerta
+- **Planes** — Emprendedor (USD 7), Profesional (USD 10), Empresa (USD 25)
+- **¿Para quién es?** — Emprendedores, startups, creadores, etc.
+- **Casos y beneficios** — Riesgos sin monitoreo vs. con monitoreo
+- **FAQ** — Preguntas frecuentes
+- **Sobre LML** — Presentación del estudio
+- **Contacto** — Formulario (nombre, email, teléfono, marca a monitorear)
+- **Registro / Login** — Autenticación
+- **Suscripción** — Elegir plan y agregar marcas a monitorear
+- **Dashboard** — Área de usuario con marcas
 
 ## Cómo ejecutar
 
@@ -21,35 +27,25 @@ npm start
 
 La app corre en http://localhost:3000
 
-Para desarrollo con recarga automática:
-
-```bash
-npm run dev
-```
-
-## Variables de entorno
-
-Copiá `.env.example` a `.env` y configurá:
-
-- `PORT` — Puerto del servidor (default: 3000)
-- `JWT_SECRET` — Clave secreta para tokens (cambiar en producción)
-
 ## Estructura
 
 ```
-├── server.js          # Servidor Express
-├── config/plans.js    # Definición de planes
-├── routes/            # auth, subscriptions
-├── middleware/       # auth
-├── db/               # Almacenamiento (JSON)
-├── public/           # Páginas estáticas
+├── server.js
+├── config/plans.js      # Emprendedor, Profesional, Empresa
+├── routes/             # auth, subscriptions, brands, contact
+├── db/store.js         # Usuarios, suscripciones, marcas, contactos
+├── public/
 │   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── suscribirse.html
-│   ├── dashboard.html
-│   └── css/
-└── data/             # Datos (generado automáticamente)
+│   ├── como-funciona.html
+│   ├── planes.html
+│   ├── para-quien-es.html
+│   ├── casos-beneficios.html
+│   ├── faq.html
+│   ├── sobre-lml.html
+│   ├── contacto.html
+│   ├── login.html, register.html, suscribirse.html, dashboard.html
+│   └── css/styles.css
+└── data/store.json     # Datos (generado)
 ```
 
 ## API
@@ -59,5 +55,9 @@ Copiá `.env.example` a `.env` y configurá:
 - `POST /api/auth/logout` — Logout
 - `GET /api/auth/me` — Usuario actual
 - `GET /api/plans` — Lista de planes
-- `POST /api/subscriptions` — Crear suscripción (requiere auth)
-- `GET /api/subscriptions/me` — Mi suscripción (requiere auth)
+- `POST /api/subscriptions` — Crear suscripción (emprendedor | profesional | empresa)
+- `GET /api/subscriptions/me` — Mi suscripción
+- `GET /api/brands` — Mis marcas
+- `POST /api/brands` — Agregar marca
+- `DELETE /api/brands/:id` — Eliminar marca
+- `POST /api/contact` — Enviar consulta de contacto

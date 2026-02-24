@@ -11,8 +11,9 @@ router.post('/', authMiddleware, (req, res) => {
     const { plan } = req.body;
     const userId = req.user.id;
 
-    if (!plan || !PLANS[plan]) {
-      return res.status(400).json({ error: 'Plan inválido. Elegí "basico" o "profesional".' });
+    const validPlans = ['emprendedor', 'profesional', 'empresa'];
+    if (!plan || !validPlans.includes(plan)) {
+      return res.status(400).json({ error: 'Plan inválido. Elegí emprendedor, profesional o empresa.' });
     }
 
     const existing = db.subscriptions.findActiveByUserId(userId);
