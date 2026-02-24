@@ -24,4 +24,9 @@ const API = {
     create: (plan) => API.fetch('/subscriptions', { method: 'POST', body: JSON.stringify({ plan }) }),
     me: () => API.fetch('/subscriptions/me'),
   },
+  brands: {
+    list: () => API.fetch('/brands'),
+    create: (name) => API.fetch('/brands', { method: 'POST', body: JSON.stringify({ name }) }),
+    delete: (id) => API.fetch(`/brands/${id}`, { method: 'DELETE' }),
+  },
 };

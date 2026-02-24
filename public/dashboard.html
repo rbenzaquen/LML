@@ -44,6 +44,22 @@
             <a href="/suscribirse" class="btn">Elegir plan</a>
           </div>
         </div>
+
+        <div id="brandsSection" style="margin-top: 2rem; display: none;">
+          <h2 class="section-title">Marcas a monitorear</h2>
+          <p id="brandsLimit" style="margin-bottom: 1rem; color: var(--color-text-light); font-size: 0.9rem;"></p>
+          <div id="addBrandForm" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: flex-end;">
+              <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label for="brandName">Nombre de la marca</label>
+                <input type="text" id="brandName" placeholder="Ej: Mi Marca">
+              </div>
+              <button type="button" id="addBrandBtn" class="btn">Agregar marca</button>
+            </div>
+            <div class="form-error" id="brandError"></div>
+          </div>
+          <ul id="brandsList" style="list-style: none;"></ul>
+        </div>
       </div>
 
       <div id="loginRequired" style="text-align: center; padding: 2rem; display: none;">
@@ -77,12 +93,15 @@
         if (me.subscription) {
           const planNames = { basico: 'Básico', profesional: 'Profesional' };
           const planPrices = { basico: 'USD 7', profesional: 'USD 10' };
+          const maxBrands = { basico: 5, profesional: 15 };
           document.getElementById('subscriptionInfo').innerHTML = `
             <strong>Plan:</strong> ${planNames[me.subscription.plan]}<br>
             <strong>Precio:</strong> ${planPrices[me.subscription.plan]} / mes<br>
             <strong>Estado:</strong> ${me.subscription.status === 'active' ? 'Activa' : me.subscription.status}
           `;
           document.getElementById('noSubscription').style.display = 'none';
+          document.getElementById('brandsSection').style.display = 'block';
+          initBrands(me.subscription.plan, maxBrands[me.subscription.plan]);
         } else {
           document.getElementById('subscriptionCard').style.display = 'none';
           document.getElementById('noSubscription').style.display = 'block';
@@ -99,6 +118,72 @@
         await API.auth.logout();
         window.location.href = '/';
       });
+
+      async function initBrands(plan, maxBrands) {
+        const brandsList = document.getElementById('brandsList');
+        const brandsLimit = document.getElementById('brandsLimit');
+        const brandNameInput = document.getElementById('brandName');
+        const addBrandBtn = document.getElementById('addBrandBtn');
+        const brandError = document.getElementById('brandError');
+
+        async function loadBrands() {
+          const { brands } = await API.brands.list();
+          brandsLimit.textContent = `${brands.length} de ${maxBrands} marcas (plan ${plan === 'basico' ? 'Básico' : 'Profesional'})`;
+          brandsList.innerHTML = brands.map((b) => `
+            <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: var(--color-bg); border-radius: 6px; margin-bottom: 0.5rem;">
+              <span>${escapeHtml(b.name)}</span>
+              <button type="button" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.875rem;" data-id="${b.id}">Eliminar</button>
+            </li>
+          `).join('');
+          brandsList.querySelectorAll('button').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+              if (!confirm('¿Eliminar esta marca?')) return;
+              try {
+                await API.brands.delete(parseInt(btn.dataset.id, 10));
+                loadBrands();
+              } catch (err) {
+                alert(err.message);
+              }
+            });
+          });
+          addBrandBtn.disabled = brands.length >= maxBrands;
+          if (brands.length >= maxBrands) {
+            brandNameInput.placeholder = `Límite alcanzado (${maxBrands} marcas)`;
+          } else {
+            brandNameInput.placeholder = 'Ej: Mi Marca';
+          }
+        }
+
+        addBrandBtn.addEventListener('click', async () => {
+          const name = brandNameInput.value.trim();
+          brandError.textContent = '';
+          if (!name) {
+            brandError.textContent = 'Ingresá el nombre de la marca';
+            return;
+          }
+          addBrandBtn.disabled = true;
+          try {
+            await API.brands.create(name);
+            brandNameInput.value = '';
+            await loadBrands();
+          } catch (err) {
+            brandError.textContent = err.message;
+            addBrandBtn.disabled = false;
+          }
+        });
+
+        brandNameInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') addBrandBtn.click();
+        });
+
+        await loadBrands();
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
     })();
   </script>
 </body>

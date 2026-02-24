@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./routes/auth');
 const subscriptionRoutes = require('./routes/subscriptions');
+const brandsRoutes = require('./routes/brands');
 const PLANS = require('./config/plans');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/brands', brandsRoutes);
 app.get('/api/plans', (req, res) => {
   res.json({ plans: Object.values(PLANS) });
 });

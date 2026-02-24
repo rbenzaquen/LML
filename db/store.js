@@ -10,9 +10,11 @@ if (!fs.existsSync(dataDir)) {
 
 function load() {
   if (!fs.existsSync(dbPath)) {
-    return { users: [], subscriptions: [] };
+    return { users: [], subscriptions: [], brands: [] };
   }
-  return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+  const data = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+  if (!data.brands) data.brands = [];
+  return data;
 }
 
 function save(data) {
@@ -56,6 +58,36 @@ const db = {
       data.subscriptions.push(newSub);
       save(data);
       return newSub;
+    },
+  },
+  brands: {
+    findByUserId(userId) {
+      return load().brands.filter((b) => b.user_id === userId);
+    },
+    countByUserId(userId) {
+      return load().brands.filter((b) => b.user_id === userId).length;
+    },
+    create(brand) {
+      const data = load();
+      const id = data.brands.length
+        ? Math.max(...data.brands.map((b) => b.id)) + 1
+        : 1;
+      const newBrand = {
+        id,
+        ...brand,
+        created_at: new Date().toISOString(),
+      };
+      data.brands.push(newBrand);
+      save(data);
+      return newBrand;
+    },
+    delete(id, userId) {
+      const data = load();
+      const idx = data.brands.findIndex((b) => b.id === id && b.user_id === userId);
+      if (idx === -1) return false;
+      data.brands.splice(idx, 1);
+      save(data);
+      return true;
     },
   },
 };
