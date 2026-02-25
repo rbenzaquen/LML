@@ -38,6 +38,18 @@ const db = {
       save(data);
       return newUser;
     },
+    update(id, updates) {
+      const data = load();
+      const idx = data.users.findIndex((u) => u.id === id);
+      if (idx === -1) return null;
+      data.users[idx] = { ...data.users[idx], ...updates };
+      save(data);
+      return data.users[idx];
+    },
+    findByResetToken(token) {
+      const users = load().users;
+      return users.find((u) => u.reset_token === token && u.reset_expires && new Date(u.reset_expires) > new Date()) || null;
+    },
   },
   subscriptions: {
     findActiveByUserId(userId) {

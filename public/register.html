@@ -46,6 +46,13 @@
           <input type="password" id="password" name="password" required minlength="6">
           <div class="form-error" id="passwordError"></div>
         </div>
+        <div class="form-group">
+          <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="aceptoTerminos" name="aceptoTerminos" required style="margin-top: 0.3rem;">
+            <span>Acepto los <a href="/terminos" target="_blank">Términos y Condiciones</a> y la Política de Privacidad de LML Brand Protection Membership.</span>
+          </label>
+          <div class="form-error" id="terminosError"></div>
+        </div>
         <div class="form-error" id="formError"></div>
         <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Registrarme</button>
       </form>
@@ -58,7 +65,8 @@
   <footer class="footer">
     <div class="container">
       <p class="firm">Litvin Marzorati Legales</p>
-      <p>LML Brand Protection Membership</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+      <p style="margin-top: 0.5rem;"><a href="/terminos">Términos y Condiciones</a></p>
     </div>
   </footer>
 
@@ -75,6 +83,11 @@
       const btn = form.querySelector('button[type="submit"]');
       form.querySelectorAll('.form-error').forEach(el => el.textContent = '');
       document.getElementById('formError').textContent = '';
+
+      if (!form.aceptoTerminos.checked) {
+        document.getElementById('terminosError').textContent = 'Debés aceptar los Términos y Condiciones';
+        return;
+      }
 
       btn.disabled = true;
       btn.textContent = 'Registrando...';

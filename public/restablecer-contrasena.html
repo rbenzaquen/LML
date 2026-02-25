@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restablecer contraseña | LML Brand Protection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">LML Brand Protection</a>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <div class="nav-links">
+      <a href="/">Inicio</a>
+      <a href="/login">Iniciar sesión</a>
+      <a href="/olvidar-contrasena">Recuperar contraseña</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <p class="slogan">Protección continua online de tu marca</p>
+      <h1>Nueva contraseña</h1>
+      <p class="tagline">Ingresá tu nueva contraseña (mínimo 6 caracteres)</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="auth-card">
+      <div id="invalidToken" style="display: none; padding: 1rem; background: #fff5f5; border-radius: 6px; color: #c53030;">
+        <p>El enlace de recuperación es inválido o expiró. <a href="/olvidar-contrasena">Solicitá uno nuevo</a>.</p>
+      </div>
+      <form id="resetForm" style="display: none;">
+        <input type="hidden" id="token" name="token">
+        <div class="form-group">
+          <label for="password">Nueva contraseña</label>
+          <input type="password" id="password" name="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+          <div class="form-error" id="formError"></div>
+        </div>
+        <div class="form-group">
+          <label for="passwordConfirm">Confirmar contraseña</label>
+          <input type="password" id="passwordConfirm" name="passwordConfirm" required minlength="6" placeholder="Repetí la contraseña">
+        </div>
+        <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Restablecer contraseña</button>
+      </form>
+      <div id="successMsg" style="display: none; padding: 1rem; background: rgba(56, 161, 105, 0.15); border-radius: 6px; color: #276749;">
+        <p>Contraseña actualizada correctamente. <a href="/login">Iniciar sesión</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="firm">Litvin Marzorati Legales</p>
+      <p>LML Brand Protection Membership — Vigilancia marcaria Argentina</p>
+      <p style="margin-top: 0.5rem;"><a href="/terminos">Términos y Condiciones</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle')?.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script src="/js/app.js"></script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const resetForm = document.getElementById('resetForm');
+      const invalidToken = document.getElementById('invalidToken');
+
+      if (!token) {
+        invalidToken.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('token').value = token;
+      resetForm.style.display = 'block';
+
+      resetForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const password = form.password.value;
+        const passwordConfirm = form.passwordConfirm.value;
+
+        document.getElementById('formError').textContent = '';
+        if (password !== passwordConfirm) {
+          document.getElementById('formError').textContent = 'Las contraseñas no coinciden';
+          return;
+        }
+
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Guardando...';
+
+        try {
+          await API.auth.resetPassword(token, password);
+          resetForm.style.display = 'none';
+          document.getElementById('successMsg').style.display = 'block';
+        } catch (err) {
+          document.getElementById('formError').textContent = err.message;
+          btn.disabled = false;
+          btn.textContent = 'Restablecer contraseña';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -18,6 +18,8 @@ const API = {
     login: (body) => API.fetch('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
     logout: () => API.fetch('/auth/logout', { method: 'POST' }),
     me: () => API.fetch('/auth/me'),
+    forgotPassword: (email) => API.fetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+    resetPassword: (token, password) => API.fetch('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) }),
   },
   plans: () => API.fetch('/plans'),
   subscriptions: {

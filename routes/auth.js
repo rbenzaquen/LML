@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const db = require('../db');
 
@@ -98,6 +99,77 @@ router.post('/login', [
 router.post('/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ ok: true });
+});
+
+// POST /api/auth/forgot-password
+router.post('/forgot-password', [
+  body('email').isEmail().normalizeEmail().withMessage('Email inválido'),
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const user = db.users.findByEmail(req.body.email);
+    if (!user) {
+      return res.json({ message: 'Si el email está registrado, recibirás un enlace para restablecer tu contraseña.' });
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+    db.users.update(user.id, {
+      reset_token: token,
+      reset_expires: expires,
+    });
+
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+    const resetLink = `${baseUrl}/restablecer-contrasena?token=${token}`;
+
+    if (process.env.SEND_EMAIL === 'true' && process.env.SMTP_HOST) {
+      // TODO: integrar nodemailer para enviar email
+      // await sendEmail(user.email, 'Restablecer contraseña', `Link: ${resetLink}`);
+    }
+
+    res.json({
+      message: 'Si el email está registrado, recibirás un enlace para restablecer tu contraseña.',
+      resetLink: process.env.NODE_ENV !== 'production' ? resetLink : undefined,
+    });
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    res.status(500).json({ error: 'Error al procesar la solicitud.' });
+  }
+});
+
+// POST /api/auth/reset-password
+router.post('/reset-password', [
+  body('token').notEmpty().withMessage('Token inválido o expirado'),
+  body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const user = db.users.findByResetToken(req.body.token);
+    if (!user) {
+      return res.status(400).json({ error: 'El enlace de recuperación es inválido o expiró. Solicitá uno nuevo.' });
+    }
+
+    const passwordHash = await bcrypt.hash(req.body.password, 10);
+    db.users.update(user.id, {
+      password_hash: passwordHash,
+      reset_token: null,
+      reset_expires: null,
+    });
+
+    res.json({ message: 'Contraseña actualizada. Ya podés iniciar sesión.' });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    res.status(500).json({ error: 'Error al restablecer la contraseña.' });
+  }
 });
 
 // GET /api/auth/me
