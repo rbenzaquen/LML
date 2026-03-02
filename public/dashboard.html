@@ -64,6 +64,9 @@
             </div>
             <div class="form-error" id="brandError"></div>
           </div>
+          <div id="brandsCompleteMsg" style="display: none; padding: 1rem; background: rgba(56, 161, 105, 0.15); border-radius: 8px; color: #276749; margin-bottom: 1rem;">
+            ✓ Listo, tus marcas están cargadas. El monitoreo está activo.
+          </div>
           <ul id="brandsList" style="list-style: none;"></ul>
         </div>
       </div>
@@ -160,10 +163,13 @@
             });
           });
           addBrandBtn.disabled = brands.length >= maxBrands;
+          const brandsCompleteMsg = document.getElementById('brandsCompleteMsg');
           if (brands.length >= maxBrands) {
-            brandNameInput.placeholder = `Límite alcanzado (${maxBrands} marcas)`;
+            brandNameInput.placeholder = `Límite alcanzado (${maxBrands} marcas). Podés eliminar una para reemplazarla.`;
+            brandsCompleteMsg.style.display = 'block';
           } else {
             brandNameInput.placeholder = 'Ej: Mi Marca';
+            brandsCompleteMsg.style.display = 'none';
           }
         }
 

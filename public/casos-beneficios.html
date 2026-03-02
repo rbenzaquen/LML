@@ -9,12 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
   <style>
-    .risk-box { background: #fff5f5; border-left: 4px solid #c53030; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
-    .benefit-box { background: #f0fff4; border-left: 4px solid #38a169; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+    .risk-box { background: #fff5f5; border-left: 4px solid #c53030; padding: 1.5rem 2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+    .benefit-box { background: #f0fff4; border-left: 4px solid #38a169; padding: 1.5rem 2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+    .risk-list, .benefit-list { list-style: none; padding: 0; margin: 0; }
+    .risk-list li, .benefit-list li { padding: 0.5rem 0; padding-left: 1.25rem; position: relative; }
+    .risk-list li::before { content: "•"; position: absolute; left: 0; color: #c53030; font-weight: bold; }
+    .benefit-list li::before { content: "✔"; position: absolute; left: 0; color: #38a169; font-weight: bold; }
     .cta-section { background: var(--color-primary); color: var(--color-white); padding: 4rem 0; text-align: center; }
     .cta-section .btn { background: var(--color-accent); color: var(--color-primary); }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
-    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -45,28 +47,34 @@
   <main class="main">
     <div class="container">
       <h2 class="section-title">Lo que puede pasar si no monitoreás tu marca</h2>
-      <ul class="features" style="list-style: disc; padding-left: 1.5rem;">
-        <li style="padding-left: 0;">Se publica una marca similar y perdés la oportunidad de oponerse.</li>
-        <li style="padding-left: 0;">Se vence tu oportunidad de atacar nuevas solicitudes y nadie lo detecta a tiempo.</li>
-        <li style="padding-left: 0;">Recibís una intimación por un conflicto evitable.</li>
-        <li style="padding-left: 0;">Perdés prioridad frente a un tercero.</li>
-      </ul>
+      <div class="risk-box">
+        <ul class="risk-list">
+          <li>Se publica una marca similar y perdés la oportunidad de oponerse.</li>
+          <li>Se vence tu oportunidad de atacar nuevas solicitudes y nadie lo detecta a tiempo.</li>
+          <li>Recibís una intimación por un conflicto evitable.</li>
+          <li>Perdés prioridad frente a un tercero.</li>
+        </ul>
+      </div>
 
       <h2 class="section-title">Un conflicto marcario puede implicar</h2>
-      <ul class="features" style="list-style: disc; padding-left: 1.5rem;">
-        <li style="padding-left: 0;">Honorarios legales</li>
-        <li style="padding-left: 0;">Tasas oficiales</li>
-        <li style="padding-left: 0;">Pérdida de posicionamiento</li>
-        <li style="padding-left: 0;">Costos reputacionales</li>
-      </ul>
+      <div class="risk-box">
+        <ul class="risk-list">
+          <li>Honorarios legales</li>
+          <li>Tasas oficiales</li>
+          <li>Pérdida de posicionamiento</li>
+          <li>Costos reputacionales</li>
+        </ul>
+      </div>
 
       <h2 class="section-title">Con monitoreo preventivo, el escenario cambia</h2>
-      <ul class="features">
-        <li>Anticipación</li>
-        <li>Tiempo de reacción</li>
-        <li>Estrategia</li>
-        <li>Protección patrimonial</li>
-      </ul>
+      <div class="benefit-box">
+        <ul class="benefit-list">
+          <li>Anticipación</li>
+          <li>Tiempo de reacción</li>
+          <li>Estrategia</li>
+          <li>Protección patrimonial</li>
+        </ul>
+      </div>
     </div>
   </main>
 

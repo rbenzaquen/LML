@@ -15,7 +15,7 @@ const API = {
 
   auth: {
     register: (body) => API.fetch('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
-    login: (body) => API.fetch('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+    login: (body) => API.fetch('/auth/login', { method: 'POST', body: JSON.stringify(body) }), // body: { email, password, rememberMe? }
     logout: () => API.fetch('/auth/logout', { method: 'POST' }),
     me: () => API.fetch('/auth/me'),
     forgotPassword: (email) => API.fetch('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),

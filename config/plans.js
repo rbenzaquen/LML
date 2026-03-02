@@ -9,7 +9,7 @@ module.exports = {
       'Monitoreo mensual de publicaciones marcarias',
       'Alertas automáticas ante posibles conflictos',
       'Recordatorio de vencimientos y renovaciones',
-      'Acceso a biblioteca legal básica',
+      'Recursos legales esenciales',
     ],
     description: 'Monitoreo mensual de publicaciones marcarias, alertas automáticas y acceso a recursos legales esenciales.',
   },
@@ -51,6 +51,6 @@ module.exports = {
     price: 7,
     currency: 'USD',
     maxBrands: 5,
-    description: 'Monitoreo mensual con alertas automáticas y acceso a biblioteca legal básica.',
+    description: 'Monitoreo mensual con alertas automáticas y recursos legales esenciales.',
   },
 };

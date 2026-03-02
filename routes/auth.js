@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const db = require('../db');
+const { sendPasswordReset } = require('../services/email');
 
 const router = express.Router();
 
@@ -73,15 +74,19 @@ router.post('/login', [
       return res.status(401).json({ error: 'Email o contraseña incorrectos.' });
     }
 
+    const rememberMe = req.body.rememberMe === true;
+    const expiresIn = rememberMe ? '30d' : '7d';
+    const maxAge = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000;
+
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET || 'dev-secret',
-      { expiresIn: '7d' }
+      { expiresIn }
     );
 
     res.cookie('token', token, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge,
       sameSite: 'lax',
     });
 
@@ -127,14 +132,16 @@ router.post('/forgot-password', [
     const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
     const resetLink = `${baseUrl}/restablecer-contrasena?token=${token}`;
 
-    if (process.env.SEND_EMAIL === 'true' && process.env.SMTP_HOST) {
-      // TODO: integrar nodemailer para enviar email
-      // await sendEmail(user.email, 'Restablecer contraseña', `Link: ${resetLink}`);
-    }
+    const emailSent = await sendPasswordReset(user.email, resetLink).catch((err) => {
+      console.error('Email send error:', err);
+      return false;
+    });
 
     res.json({
-      message: 'Si el email está registrado, recibirás un enlace para restablecer tu contraseña.',
-      resetLink: process.env.NODE_ENV !== 'production' ? resetLink : undefined,
+      message: emailSent
+        ? 'Te enviamos un email con el enlace para restablecer tu contraseña. Revisá tu bandeja de entrada.'
+        : 'Si el email está registrado, recibirás un enlace para restablecer tu contraseña.',
+      resetLink: !emailSent && process.env.NODE_ENV !== 'production' ? resetLink : undefined,
     });
   } catch (err) {
     console.error('Forgot password error:', err);
